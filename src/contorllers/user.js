@@ -178,7 +178,7 @@ const updateProfile = async (req, res) => {
   }
 }
 
-const changePassword = async () => {
+const changePassword = async (req, res) => {
   try {
     const { userId } = req.credentials
     const { password, newPassword } = req.body

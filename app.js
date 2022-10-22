@@ -1,14 +1,18 @@
 const express = require('express')
 const logger = require('morgan')
 const uuid = require('uuid')
+const bodyParser = require('body-parser')
 
 const Config = require('./src/config')
 const Constants = require('./src/constants')
 
 const app = express()
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
+// path upload
+app.use('/api/upload', express.static(Constants.UPLOAD))
 
 //Request Log
 app.use(
@@ -36,7 +40,7 @@ app.use(
       `body: ${JSON.stringify(
         {
           ...req.body,
-          password: 'detected to remove'
+          password: undefined
         },
         null,
         2
@@ -55,11 +59,15 @@ require('./src/routes')(app)
 const port = Constants.PORT || 8001
 app.listen(port)
 console.log(`Server listening on ${port}`)
-app._router.stack.forEach((router) => {
-  if (router.route && router.route.path) {
-    console.log(router.route.path)
-  }
-})
+
+//show all api
+const showAllApi = () =>
+  app._router.stack
+    .filter((r) => r.route)
+    .map((r) => Object.keys(r.route.methods)[0].toUpperCase().padEnd(7) + r.route.path)
+    .join('\n')
+
+console.log(showAllApi())
 
 // connect db
 Config.database.connect(Constants.DB_URL)

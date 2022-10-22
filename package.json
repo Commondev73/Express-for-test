@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Commondev73/Express-for-test#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "joi": "^17.6.3",
