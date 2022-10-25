@@ -2,12 +2,14 @@ const express = require('express')
 const logger = require('morgan')
 const uuid = require('uuid')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
 const Config = require('./src/config')
 const Constants = require('./src/constants')
 
 const app = express()
 
+app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
