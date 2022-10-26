@@ -69,14 +69,14 @@ const signIn = async (req, res) => {
     const { userName, password } = req.body
     const user = await User.findOne({ userName })
     if (!user) {
-      return res.status(401).json({ statusCode: 401, error: 'Unauthorized', data: { message: 'user not exists' } })
+      return res.status(401).json({ statusCode: 401, error: 'Unauthorized', message: 'user not exists' })
     }
     const isMatch = bcrypt.compareSync(password, user.password)
     if (!isMatch) {
-      return res.status(401).json({ statusCode: 401, error: 'Unauthorized', data: { message: 'invalid password' } })
+      return res.status(401).json({ statusCode: 401, error: 'Unauthorized', message: 'invalid password' })
     }
     if (user.status === UserStatus.BANNED) {
-      return res.status(401).json({ statusCode: 401, error: 'Unauthorized', data: { message: 'user is banned' } })
+      return res.status(401).json({ statusCode: 401, error: 'Unauthorized', message: 'user is banned' })
     }
     const payload = {
       userId: user._id,
@@ -112,7 +112,7 @@ const getProfile = async (req, res) => {
     if (!user) {
       return res.status(401).json({ statusCode: 401, error: 'Unauthorized' })
     }
-    
+
     user.photo = user.photo ? user.photo.split('/').pop() : ''
     user.password = undefined
     user.createdAt = undefined

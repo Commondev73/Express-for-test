@@ -3,8 +3,9 @@ const validate = (schema, property) => {
     try {
       const { error } = schema.validate(req[property])
       if (error) {
-        console.log('error', message)
-        res.status(400).json({ statusCode: 401, error })
+        const { details } = error
+        const message = details.map((i) => i.message).join(',')
+        res.status(400).json({ statusCode: 401, error: message })
       } else {
         next()
       }
