@@ -84,7 +84,7 @@ const signIn = async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       status: user.status,
-      photo: user.photo
+      photo: user.photo ? user.photo.split('/').pop() : ''
     }
     const token = JWT.sign(payload, Constants.SECRET_KEY, {
       expiresIn: Constants.TOKEN_EXPIRE
