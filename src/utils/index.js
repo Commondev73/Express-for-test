@@ -11,7 +11,7 @@ const uploadFile = (base64Data, directory) => {
   }
   const fileName = `${Generator.genTransactionId()}.jpg`
   const pathName = `${path}/${fileName}`
-  const rawBase64Data = base64Data.src.replace(/^data:image\/(\w+);base64,/gi, '')
+  const rawBase64Data = base64Data.replace(/^data:image\/(\w+);base64,/gi, '')
   fs.writeFileSync(pathName, rawBase64Data, { encoding: 'base64' })
   return {
     fileName,
