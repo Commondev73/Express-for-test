@@ -155,7 +155,7 @@ const updateProfile = async (req, res) => {
         firstName: updateUser.firstName,
         lastName: updateUser.lastName,
         status: updateUser.status,
-        photo: updateUser.photo
+        photo: updateUser.photo ? updateUser.photo.split('/').pop() : ''
       }
       const token = JWT.sign(payload, Constants.SECRET_KEY, {
         expiresIn: Constants.TOKEN_EXPIRE
@@ -190,7 +190,7 @@ const changePassword = async (req, res) => {
 
     const isMatch = bcrypt.compareSync(password, user.password)
     if (!isMatch) {
-      return res.status(401).json({ statusCode: 401, error: 'Unauthorized', data: { message: 'invalid password' } })
+      return res.status(401).json({ statusCode: 401, error: 'Unauthorized', message: 'invalid password' })
     }
 
     const updatePassword = bcrypt.hashSync(newPassword, 10)
@@ -208,6 +208,7 @@ const changePassword = async (req, res) => {
     return res.status(500).json({ error })
   }
 }
+
 module.exports = {
   refreshToken,
   signUp,
